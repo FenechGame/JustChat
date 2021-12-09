@@ -1,4 +1,4 @@
-package com.fenech.justchat.model
+package com.fenech.justchat.data.model
 
 data class Chat(
     val name: String = "",

@@ -1,11 +1,12 @@
-package com.fenech.justchat.ui.main
+package com.fenech.justchat.ui.main.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fenech.justchat.R
-import com.fenech.justchat.model.Chat
+import com.fenech.justchat.data.model.Chat
+import kotlinx.android.synthetic.main.item_main_fragment.view.*
 
 class MainAdapter(private val chats: ArrayList<Chat>) :
     RecyclerView.Adapter<MainAdapter.DataViewHolder>() {
