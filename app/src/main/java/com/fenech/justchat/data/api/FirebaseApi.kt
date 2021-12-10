@@ -7,9 +7,19 @@ import com.google.firebase.ktx.Firebase
 class FirebaseApi {
 
     private val database = Firebase.database
-    private val myRef = database.reference
+    private val usersRef = database.getReference("users_all")
+    private val chatsListRef = database.getReference("chats_list")
+    private val chatsRef = database.getReference("chats")
+
+    fun getUsers(): DatabaseReference {
+        return usersRef
+    }
+
+    fun getChatsList(): DatabaseReference {
+        return chatsListRef
+    }
 
     fun getChats(): DatabaseReference {
-        return myRef.child("chats")
+        return chatsRef
     }
 }

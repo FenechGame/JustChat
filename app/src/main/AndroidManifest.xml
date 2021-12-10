@@ -12,14 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JustChat">
         <activity
-            android:name="com.fenech.justchat.ui.main.view.MainActivity"
+            android:name="com.fenech.justchat.data.api.FirebaseUIActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.fenech.justchat.ui.main.view.MainActivity" />
     </application>
 
 </manifest>

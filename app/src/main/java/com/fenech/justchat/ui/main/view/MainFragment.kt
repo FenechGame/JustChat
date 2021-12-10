@@ -1,5 +1,6 @@
 package com.fenech.justchat.ui.main.view
 
+import android.opengl.Visibility
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -39,6 +40,7 @@ class MainFragment : Fragment() {
             .get(MainViewModel::class.java)
         setupUI()
         setupObserver()
+        addButtonListeners()
     }
 
     private fun setupUI() {
@@ -62,5 +64,20 @@ class MainFragment : Fragment() {
     private fun renderList(chats: List<Chat>) {
         adapter.addData(chats)
         adapter.notifyDataSetChanged()
+    }
+
+    private fun addButtonListeners() {
+        btNewChat.setOnClickListener {
+            frameNewChat.visibility = View.VISIBLE
+            btNewChat.visibility = View.INVISIBLE
+        }
+        btCreateChat.setOnClickListener {
+            val nameChat = etNameChat.text.toString()
+            if (nameChat.isEmpty())
+                return@setOnClickListener
+            frameNewChat.visibility = View.GONE
+            btNewChat.visibility = View.VISIBLE
+            viewModel.createNewChat(nameChat)
+        }
     }
 }

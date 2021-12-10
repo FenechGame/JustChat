@@ -33,6 +33,7 @@ class MainAdapter(private val chats: ArrayList<Chat>) :
     }
 
     fun addData(list: List<Chat>) {
+        chats.clear()
         chats.addAll(list)
     }
 }
