@@ -4,6 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/projects/JustChat/app/src/main/res/layout/activity_firebase_ui.xml" value="0.35989583333333336" />
+        <entry key="..\:/projects/JustChat/app/src/main/res/layout/chat_activity.xml" value="0.35989583333333336" />
+        <entry key="..\:/projects/JustChat/app/src/main/res/layout/chat_fragment.xml" value="0.35989583333333336" />
+        <entry key="..\:/projects/JustChat/app/src/main/res/layout/item_chat_fragment.xml" value="0.5" />
         <entry key="..\:/projects/JustChat/app/src/main/res/layout/item_main_fragment.xml" value="0.35989583333333336" />
         <entry key="..\:/projects/JustChat/app/src/main/res/layout/main_activity.xml" value="0.35989583333333336" />
         <entry key="..\:/projects/JustChat/app/src/main/res/layout/main_fragment.xml" value="0.3458333333333333" />

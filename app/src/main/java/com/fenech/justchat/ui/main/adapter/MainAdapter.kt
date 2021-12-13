@@ -5,16 +5,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fenech.justchat.R
-import com.fenech.justchat.data.model.Chat
+import com.fenech.justchat.data.model.DataChat
 import kotlinx.android.synthetic.main.item_main_fragment.view.*
 
-class MainAdapter(private val chats: ArrayList<Chat>) :
+class MainAdapter(private val dataChats: ArrayList<DataChat>) :
     RecyclerView.Adapter<MainAdapter.DataViewHolder>() {
 
-    class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(chat: Chat) {
-            itemView.tvNameChat.text = chat.name
-            itemView.tvTextChat.text = chat.text
+    companion object {
+        private lateinit var clickListener: ClickListener
+    }
+
+    class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+        fun bind(dataChat: DataChat) {
+            itemView.tvNameChat.text = dataChat.name
+            itemView.tvTextChat.text = dataChat.lastMessage
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            clickListener.onItemClick(adapterPosition, v)
         }
     }
 
@@ -25,15 +34,27 @@ class MainAdapter(private val chats: ArrayList<Chat>) :
     }
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
-        holder.bind(chats[position])
+        holder.bind(dataChats[position])
     }
 
     override fun getItemCount(): Int {
-        return chats.size
+        return dataChats.size
     }
 
-    fun addData(list: List<Chat>) {
-        chats.clear()
-        chats.addAll(list)
+    fun addData(list: List<DataChat>) {
+        dataChats.clear()
+        dataChats.addAll(list)
+    }
+
+    fun getId(position: Int): String {
+        return dataChats[position].id
+    }
+
+    fun setOnItemClickListener(clickListener: ClickListener) {
+        MainAdapter.clickListener = clickListener
+    }
+
+    interface ClickListener {
+        fun onItemClick(position: Int, v: View?)
     }
 }

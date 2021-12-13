@@ -5,15 +5,15 @@ import com.google.firebase.database.DatabaseReference
 
 class MainRepository(private val firebaseApi: FirebaseApi) {
 
-    fun getUsers(): DatabaseReference {
-        return firebaseApi.getUsers()
+    fun getUsersRef(): DatabaseReference {
+        return firebaseApi.getUsersRef()
     }
 
-    fun getChatsList(): DatabaseReference {
-        return firebaseApi.getChatsList()
+    fun getChatsListRef(): DatabaseReference {
+        return firebaseApi.getChatsListRef()
     }
 
-    fun getChats(): DatabaseReference {
-        return firebaseApi.getChats()
+    fun getChatsRef(): DatabaseReference {
+        return firebaseApi.getChatsRef()
     }
 }

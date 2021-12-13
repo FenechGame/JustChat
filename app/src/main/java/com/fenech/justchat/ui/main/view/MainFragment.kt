@@ -1,18 +1,17 @@
 package com.fenech.justchat.ui.main.view
 
-import android.opengl.Visibility
+import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fenech.justchat.R
 import com.fenech.justchat.data.api.FirebaseApi
-import com.fenech.justchat.data.model.Chat
+import com.fenech.justchat.data.model.DataChat
 import com.fenech.justchat.ui.base.ViewModelFactory
 import com.fenech.justchat.ui.main.adapter.MainAdapter
 import com.fenech.justchat.ui.main.viewmodel.MainViewModel
@@ -24,7 +23,7 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var mainViewModel: MainViewModel
     private lateinit var adapter: MainAdapter
 
     override fun onCreateView(
@@ -36,33 +35,40 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, ViewModelFactory(FirebaseApi()))
-            .get(MainViewModel::class.java)
+        mainViewModel =
+            ViewModelProvider(this, ViewModelFactory(FirebaseApi())).get(MainViewModel::class.java)
         setupUI()
         setupObserver()
         addButtonListeners()
     }
 
     private fun setupUI() {
-        rvChats.layoutManager = LinearLayoutManager(requireContext())
+        rvMessages.layoutManager = LinearLayoutManager(requireContext())
         adapter = MainAdapter(arrayListOf())
-        rvChats.addItemDecoration(
+        adapter.setOnItemClickListener(object : MainAdapter.ClickListener {
+            override fun onItemClick(position: Int, v: View?) {
+                val intent = Intent(activity, ChatActivity::class.java)
+                intent.putExtra("ID", adapter.getId(position))
+                startActivity(intent)
+            }
+        })
+        rvMessages.addItemDecoration(
             DividerItemDecoration(
-                rvChats.context,
-                (rvChats.layoutManager as LinearLayoutManager).orientation
+                rvMessages.context,
+                (rvMessages.layoutManager as LinearLayoutManager).orientation
             )
         )
-        rvChats.adapter = adapter
+        rvMessages.adapter = adapter
     }
 
     private fun setupObserver() {
-        viewModel.getChats().observe(viewLifecycleOwner, {
+        mainViewModel.getChatsListLiveData().observe(viewLifecycleOwner, {
             renderList(it)
         })
     }
 
-    private fun renderList(chats: List<Chat>) {
-        adapter.addData(chats)
+    private fun renderList(dataChats: List<DataChat>) {
+        adapter.addData(dataChats)
         adapter.notifyDataSetChanged()
     }
 
@@ -77,7 +83,7 @@ class MainFragment : Fragment() {
                 return@setOnClickListener
             frameNewChat.visibility = View.GONE
             btNewChat.visibility = View.VISIBLE
-            viewModel.createNewChat(nameChat)
+            mainViewModel.createNewChat(nameChat)
         }
     }
 }

@@ -11,15 +11,15 @@ class FirebaseApi {
     private val chatsListRef = database.getReference("chats_list")
     private val chatsRef = database.getReference("chats")
 
-    fun getUsers(): DatabaseReference {
+    fun getUsersRef(): DatabaseReference {
         return usersRef
     }
 
-    fun getChatsList(): DatabaseReference {
+    fun getChatsListRef(): DatabaseReference {
         return chatsListRef
     }
 
-    fun getChats(): DatabaseReference {
+    fun getChatsRef(): DatabaseReference {
         return chatsRef
     }
 }
