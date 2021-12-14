@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fenech.justchat.R
@@ -50,6 +51,21 @@ class MainFragment : Fragment() {
                 val intent = Intent(activity, ChatActivity::class.java)
                 intent.putExtra("ID", adapter.getId(position))
                 startActivity(intent)
+            }
+        })
+        adapter.setOnItemLongClickListener(object : MainAdapter.ClickListener {
+            override fun onItemClick(position: Int, v: View?) {
+                val builder = AlertDialog.Builder(v!!.context)
+                builder.setTitle("Удалить чат?")
+                    .setMessage("Подтвердите удаление чата")
+                    .setPositiveButton("Да") { dialog, id ->
+                        mainViewModel.deleteChat(adapter.getId(position))
+                        dialog.cancel()
+                    }
+                    .setNegativeButton("Нет") { dialog, id ->
+                        dialog.cancel()
+                    }
+                builder.create()
             }
         })
         rvMessages.addItemDecoration(

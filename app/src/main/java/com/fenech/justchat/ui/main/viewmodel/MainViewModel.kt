@@ -79,6 +79,12 @@ class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
         })
     }
 
+    fun deleteChat(id: String) {
+        if (id == FirebaseAuth.getInstance().uid) {
+            
+        }
+    }
+
     fun outputMessage(text: String) {
         val userRef = openChat!!.child(FirebaseAuth.getInstance().uid.toString()).push()
         userRef.child("TIMESTAMP").setValue(ServerValue.TIMESTAMP)

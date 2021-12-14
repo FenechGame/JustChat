@@ -13,9 +13,11 @@ class MainAdapter(private val dataChats: ArrayList<DataChat>) :
 
     companion object {
         private lateinit var clickListener: ClickListener
+        private lateinit var longClickListener: ClickListener
     }
 
-    class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener,
+        View.OnLongClickListener {
         fun bind(dataChat: DataChat) {
             itemView.tvNameChat.text = dataChat.name
             itemView.tvTextChat.text = dataChat.lastMessage
@@ -24,6 +26,11 @@ class MainAdapter(private val dataChats: ArrayList<DataChat>) :
 
         override fun onClick(v: View?) {
             clickListener.onItemClick(adapterPosition, v)
+        }
+
+        override fun onLongClick(v: View?): Boolean {
+            longClickListener.onItemClick(adapterPosition, v)
+            return true
         }
     }
 
@@ -52,6 +59,10 @@ class MainAdapter(private val dataChats: ArrayList<DataChat>) :
 
     fun setOnItemClickListener(clickListener: ClickListener) {
         MainAdapter.clickListener = clickListener
+    }
+
+    fun setOnItemLongClickListener(clickListener: ClickListener) {
+        longClickListener = clickListener
     }
 
     interface ClickListener {
