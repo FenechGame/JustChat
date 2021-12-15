@@ -52,13 +52,14 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="enter name"
-            android:inputType="textPersonName" />
+            android:inputType="textMultiLine|textCapSentences"
+            android:maxLength="48" />
 
         <Button
             android:id="@+id/btCreateChat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:text="add" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,8 +20,9 @@ class MainAdapter(private val dataChats: ArrayList<DataChat>) :
         View.OnLongClickListener {
         fun bind(dataChat: DataChat) {
             itemView.tvNameChat.text = dataChat.name
-            itemView.tvTextChat.text = dataChat.lastMessage
+            itemView.tvTextChat.text = dataChat.lastMessageText
             itemView.setOnClickListener(this)
+            itemView.setOnLongClickListener(this)
         }
 
         override fun onClick(v: View?) {
@@ -55,6 +56,10 @@ class MainAdapter(private val dataChats: ArrayList<DataChat>) :
 
     fun getId(position: Int): String {
         return dataChats[position].id
+    }
+
+    fun getAuthor(position: Int): String {
+        return dataChats[position].author
     }
 
     fun setOnItemClickListener(clickListener: ClickListener) {

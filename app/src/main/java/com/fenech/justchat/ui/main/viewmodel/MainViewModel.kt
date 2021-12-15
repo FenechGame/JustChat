@@ -1,5 +1,6 @@
 package com.fenech.justchat.ui.main.viewmodel
 
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,11 +19,23 @@ class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
     private val users: DatabaseReference = mainRepository.getUsersRef()
     private val chatList: DatabaseReference = mainRepository.getChatsListRef()
     private val chats: DatabaseReference = mainRepository.getChatsRef()
+    private val debug: DatabaseReference = mainRepository.getDebugRef()
     private var openChat: DatabaseReference? = null
 
     init {
+        //TODO убрать debug
         try {
-            subscribeFirebase()
+            debug.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.value == "on") {
+                        subscribeFirebase()
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+
+            })
         } catch (e: NullPointerException) {
             e.printStackTrace()
         }
@@ -50,7 +63,9 @@ class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
     fun createNewChat(name: String) {
         val pushRef = chatList.push()
         pushRef.child("name").setValue(name)
-        pushRef.child("last_message").setValue("")
+        pushRef.child("author").setValue(FirebaseAuth.getInstance().uid)
+        pushRef.child("last_message").child("time").setValue(ServerValue.TIMESTAMP)
+        pushRef.child("last_message").child("text").setValue("")
     }
 
     fun openChat(id: String) {
@@ -71,7 +86,7 @@ class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
                         )
                     }
                 }
-                dataChat.postValue(dataChatsTemp)
+                dataChat.postValue(dataChatsTemp.sortedBy { it.timestamp })
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -80,15 +95,21 @@ class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
     }
 
     fun deleteChat(id: String) {
-        if (id == FirebaseAuth.getInstance().uid) {
-            
-        }
+        chatList.child(id).removeValue()
     }
 
     fun outputMessage(text: String) {
         val userRef = openChat!!.child(FirebaseAuth.getInstance().uid.toString()).push()
         userRef.child("TIMESTAMP").setValue(ServerValue.TIMESTAMP)
         userRef.child("text").setValue(text)
+        chatList.child(openChat!!.key.toString()).child("last_message").child("time")
+            .setValue(ServerValue.TIMESTAMP)
+        chatList.child(openChat!!.key.toString()).child("last_message").child("text")
+            .setValue(text)
+    }
+
+    fun deleteMessage(id: String) {
+        openChat!!.child(FirebaseAuth.getInstance().uid.toString()).child(id).removeValue()
     }
 
     @Throws(NullPointerException::class)
@@ -111,7 +132,6 @@ class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
             override fun onCancelled(error: DatabaseError) {
             }
         })
-
         chatList.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val dataChatsTemp: ArrayList<DataChat> = ArrayList()
@@ -119,12 +139,14 @@ class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
                     dataChatsTemp.add(
                         DataChat(
                             data.key.toString(),
+                            data.child("author").value.toString(),
                             data.child("name").value.toString(),
-                            data.child("last_message").value.toString()
+                            data.child("last_message").child("time").value.toString(),
+                            data.child("last_message").child("text").value.toString()
                         )
                     )
                 }
-                dataChatsList.postValue(dataChatsTemp)
+                dataChatsList.postValue(dataChatsTemp.sortedByDescending { it.lastMessageTime })
             }
 
             override fun onCancelled(error: DatabaseError) {

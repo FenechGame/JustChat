@@ -10,6 +10,7 @@ class FirebaseApi {
     private val usersRef = database.getReference("users_all")
     private val chatsListRef = database.getReference("chats_list")
     private val chatsRef = database.getReference("chats")
+    private val debugRef = database.getReference("debug")
 
     fun getUsersRef(): DatabaseReference {
         return usersRef
@@ -21,5 +22,9 @@ class FirebaseApi {
 
     fun getChatsRef(): DatabaseReference {
         return chatsRef
+    }
+
+    fun getDebugRef(): DatabaseReference {
+        return debugRef
     }
 }

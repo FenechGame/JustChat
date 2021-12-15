@@ -16,4 +16,8 @@ class MainRepository(private val firebaseApi: FirebaseApi) {
     fun getChatsRef(): DatabaseReference {
         return firebaseApi.getChatsRef()
     }
+
+    fun getDebugRef(): DatabaseReference {
+        return firebaseApi.getDebugRef()
+    }
 }

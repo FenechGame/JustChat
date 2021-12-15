@@ -22,24 +22,35 @@ class ChatAdapter(private val dataChat: ArrayList<DataMessage>) :
 
     companion object {
         private lateinit var clickListener: ClickListener
+        private lateinit var longClickListener: ClickListener
 
         @SuppressLint("SimpleDateFormat")
         private val simpleDateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm:ss")
     }
 
-    class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener,
+        View.OnLongClickListener {
         fun bind(dataMessage: DataMessage) {
             itemView.tvMessage.text = dataMessage.text
             itemView.tvTime.text = simpleDateFormat.format(dataMessage.timestamp.toLong())
             itemView.setOnClickListener(this)
+            itemView.setOnLongClickListener(this)
             if (dataMessage.userId == FirebaseAuth.getInstance().uid) {
-                itemView.tvMessage.gravity = Gravity.RIGHT
-                itemView.tvTime.gravity = Gravity.RIGHT
+                itemView.tvMessage.gravity = Gravity.END
+                itemView.tvTime.gravity = Gravity.END
+            } else {
+                itemView.tvMessage.gravity = Gravity.START
+                itemView.tvTime.gravity = Gravity.START
             }
         }
 
         override fun onClick(v: View?) {
             clickListener.onItemClick(adapterPosition, v)
+        }
+
+        override fun onLongClick(v: View?): Boolean {
+            longClickListener.onItemClick(adapterPosition, v)
+            return true
         }
     }
 
@@ -62,8 +73,20 @@ class ChatAdapter(private val dataChat: ArrayList<DataMessage>) :
         dataChat.addAll(list)
     }
 
+    fun getId(position: Int): String {
+        return dataChat[position].messageId
+    }
+
+    fun getAuthor(position: Int): String {
+        return dataChat[position].userId
+    }
+
     fun setOnItemClickListener(clickListener: ClickListener) {
         ChatAdapter.clickListener = clickListener
+    }
+
+    fun setOnItemLongClickListener(clickListener: ClickListener) {
+        longClickListener = clickListener
     }
 
     interface ClickListener {

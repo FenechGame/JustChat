@@ -7,8 +7,9 @@
 
     <TextView
         android:id="@+id/tvNameChat"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:text="Name"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -18,13 +19,24 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/tvLastMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Последнее сообщение:"
+        app:layout_constraintStart_toStartOf="@+id/tvNameChat"
+        app:layout_constraintTop_toBottomOf="@+id/tvNameChat" />
+
+    <TextView
         android:id="@+id/tvTextChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:text="Text"
         android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvLastMessage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tvNameChat"
+        app:layout_constraintStart_toEndOf="@+id/tvLastMessage"
         app:layout_constraintTop_toBottomOf="@+id/tvNameChat" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
