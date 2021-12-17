@@ -95,6 +95,8 @@ class ChatFragment : Fragment() {
 
     private fun addButtonListeners() {
         btSend.setOnClickListener {
+            if (etTextMessage.text.toString().isEmpty())
+                return@setOnClickListener
             mainViewModel.outputMessage(etTextMessage.text.toString())
             etTextMessage.text.clear()
         }

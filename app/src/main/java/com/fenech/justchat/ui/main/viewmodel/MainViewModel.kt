@@ -62,8 +62,12 @@ class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
 
     fun createNewChat(name: String) {
         val pushRef = chatList.push()
+        pushRef.child("authorId").setValue(FirebaseAuth.getInstance().uid)
         pushRef.child("name").setValue(name)
-        pushRef.child("author").setValue(FirebaseAuth.getInstance().uid)
+        pushRef.child("author_name")
+            .setValue(FirebaseAuth.getInstance().currentUser?.displayName ?: "Гость")
+        pushRef.child("url_avatar")
+            .setValue(FirebaseAuth.getInstance().currentUser?.photoUrl ?: "")
         pushRef.child("last_message").child("time").setValue(ServerValue.TIMESTAMP)
         pushRef.child("last_message").child("text").setValue("")
     }
@@ -139,8 +143,10 @@ class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
                     dataChatsTemp.add(
                         DataChat(
                             data.key.toString(),
-                            data.child("author").value.toString(),
+                            data.child("authorId").value.toString(),
                             data.child("name").value.toString(),
+                            data.child("author_name").value.toString(),
+                            data.child("url_avatar").value.toString(),
                             data.child("last_message").child("time").value.toString(),
                             data.child("last_message").child("text").value.toString()
                         )
