@@ -1,65 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.main.view.MainFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvMessages"
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.fenech.justchat.ui.main.viewmodel.MainViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:context=".ui.main.view.MainFragment">
 
-    <Button
-        android:id="@+id/btNewChat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        android:text="+"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/frameNewChat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#FFF"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/tvNameChat"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMessages"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Name chat:" />
-
-        <EditText
-            android:id="@+id/etNameChat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="enter name"
-            android:inputType="textMultiLine|textCapSentences"
-            android:maxLength="48" />
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btCreateChat"
-            android:layout_width="match_parent"
+            android:id="@+id/btNewChat"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="add" />
-    </LinearLayout>
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
+            android:text="+"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:id="@+id/frameNewChat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#FFF"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvNameChat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Name chat:" />
+
+            <EditText
+                android:id="@+id/etNameChat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="enter name"
+                android:inputType="textMultiLine|textCapSentences"
+                android:maxLength="48" />
+
+            <Button
+                android:id="@+id/btCreateChat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="add" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -7,15 +7,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fenech.justchat.R
 import com.fenech.justchat.data.api.FirebaseApi
 import com.fenech.justchat.data.model.DataChat
+import com.fenech.justchat.databinding.MainFragmentBinding
 import com.fenech.justchat.ui.base.ViewModelFactory
 import com.fenech.justchat.ui.main.adapter.MainAdapter
 import com.fenech.justchat.ui.main.viewmodel.MainViewModel
@@ -35,13 +36,17 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        mainViewModel =
+            ViewModelProvider(this, ViewModelFactory(FirebaseApi()))[MainViewModel::class.java]
+        val binding: MainFragmentBinding =
+            DataBindingUtil.inflate(inflater, R.layout.main_fragment, container, false)
+        binding.lifecycleOwner = this
+        binding.viewmodel = mainViewModel
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        mainViewModel =
-            ViewModelProvider(this, ViewModelFactory(FirebaseApi())).get(MainViewModel::class.java)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setupUI()
         setupObserver()
         addButtonListeners()

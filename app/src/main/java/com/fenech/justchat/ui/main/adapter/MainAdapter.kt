@@ -3,26 +3,28 @@ package com.fenech.justchat.ui.main.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.fenech.justchat.R
 import com.fenech.justchat.data.model.DataChat
+import com.fenech.justchat.databinding.ItemMainFragmentBinding
 import kotlinx.android.synthetic.main.item_main_fragment.view.*
 
 class MainAdapter(private val dataChats: ArrayList<DataChat>) :
-    RecyclerView.Adapter<MainAdapter.DataViewHolder>() {
+    RecyclerView.Adapter<MainAdapter.DataChatHolder>() {
 
     companion object {
         private lateinit var clickListener: ClickListener
         private lateinit var longClickListener: ClickListener
     }
 
-    class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener,
-        View.OnLongClickListener {
+    class DataChatHolder(private val binding: ItemMainFragmentBinding) :
+        RecyclerView.ViewHolder(binding.root), View.OnClickListener, View.OnLongClickListener {
         fun bind(dataChat: DataChat) {
-            itemView.tvNameChat.text = dataChat.name
-            itemView.tvTextChat.text = dataChat.lastMessageText
-            itemView.setOnClickListener(this)
-            itemView.setOnLongClickListener(this)
+            binding.dataChat = dataChat
+            binding.root.setOnClickListener(this)
+            binding.root.setOnLongClickListener(this)
+            binding.executePendingBindings()
         }
 
         override fun onClick(v: View?) {
@@ -35,13 +37,16 @@ class MainAdapter(private val dataChats: ArrayList<DataChat>) :
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
-        return DataViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_main_fragment, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataChatHolder {
+        return DataChatHolder(
+            DataBindingUtil.inflate(
+                LayoutInflater.from(parent.context),
+                R.layout.item_main_fragment, parent, false
+            )
         )
     }
 
-    override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DataChatHolder, position: Int) {
         holder.bind(dataChats[position])
     }
 

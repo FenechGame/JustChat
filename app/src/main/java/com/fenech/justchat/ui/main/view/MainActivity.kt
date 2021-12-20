@@ -2,7 +2,9 @@ package com.fenech.justchat.ui.main.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
 import com.fenech.justchat.R
+import com.fenech.justchat.databinding.MainActivityBinding
 
 class MainActivity : AppCompatActivity() {
 
